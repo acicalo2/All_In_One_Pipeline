@@ -1,0 +1,2 @@
+sample_id,fastq_1,fastq_2,long_read,all_fastq_files,data_dir
+ARIA_A10_09854_0_Ag_Hyb_S8,/export/software_development/modularized_md_vs_nf/data/ARIA_A10_09854_0_Ag_Hyb_S8_L001_R1_001.fastq.gz,/export/software_development/modularized_md_vs_nf/data/ARIA_A10_09854_0_Ag_Hyb_S8_L001_R2_001.fastq.gz,/export/software_development/modularized_md_vs_nf/data/No_Read,/export/software_development/modularized_md_vs_nf/data/[!Undetermined_]*.fastq.gz,/export/software_development/modularized_md_vs_nf/data/
