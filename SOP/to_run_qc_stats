@@ -1,0 +1,28 @@
+# To RUN QC STATS
+
+conda activate nextflow
+
+cd /export/nextflow/bdrd/all_in_one_pipeline/scripts/
+# AS AN EXAMPLE
+# ln -sf /path/to/fastq/ /where/you/plan/to/output/qc-stats
+ln -sf Data/Intensities/BaseCalls/*.fastq.gz qc_stats/fastq/ 
+Rscript/all_in_one_pipeline/scripts/create_samplesheet.R -i path/to/fastq/files \
+                              -o /output/path
+
+# to run as bash script update qc_stats.sh
+vim /all_in_one_pipeline/scripts/qc_stats.sh
+
+#example of short 
+nextflow run all_in_one_pipeline/qc_stats.nf  --samplesheet_csv=samplesheet.csv \
+                          --outdir=/output/path/ \
+                          --project_id="project_id" \
+			                    --short_reads=true \
+                          -profile cluster_normal
+
+# Example of a long read run
+nextflow run all_in_one_pipeline/qc_stats.nf  --samplesheet_csv=samplesheet.csv \
+                          --outdir=/output/path/ \
+                          --project_id="project_id" \
+			                    --longreads=true \
+                          -profile cluster_normal
+
