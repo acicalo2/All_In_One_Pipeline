@@ -1,0 +1,35 @@
+# To RUN MD-VS WORKFLOW
+
+conda activate nextflow
+
+cd /export/nextflow/bdrd/all_in_one_pipeline/scripts/
+# AS AN EXAMPLE
+# ln -sf /path/to/BASECALLS/ reads
+ln -sf /Data/Intensities/BaseCalls/*.fastq.gz fastq
+Rscript create_samplesheet.R -i path/to/fastq/files \
+                              -o /output/path
+
+update md_vs_nextflow.sh
+vim /export/nextflow/bdrd/all_in_one_pipeline/scripts/md_vs_nextflow.sh
+# This is md_vs_nextflow.sh
+nextflow run  /all_in_one_pipeline/md_vs_workflow.nf \
+		          --samplesheet_csv=d/all_in_one_pipeline/samplesheet.csv \
+                          --outdir=all_in_one_pipeline/results_test2/ \
+                          --fastqc_threads=100 \
+                          --project_id="test" \
+                          -profile cluster_normal
+
+bash md_vs_nextflow.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
