@@ -37,7 +37,7 @@ workflow {
 //    pretrim_ch                   = Channel.fromPath(params.samplesheet_csv) splitCsv(header:true) .map { row -> tuple(row.sample_id,file(row.data_dir)) }        
     pretrim_ch                   = Channel.fromPath(params.samplesheet_csv) splitCsv(header:true) .map { row -> tuple(row.sample_id,file(row.fastq_1),file(row.fastq_2),file(row.data_dir)) }      
     Interleave(pretrim_ch)
-    Pretrim_fastqc_merged(Interleave.out.interleave_ch)
+    Pretrim_fastqc_merged(pretrim_ch,Interleave.out.interleave_ch)
     Quality_Control(sample_w_short_long_reads_ch)
     Post_trim_fastqc(Quality_Control.out.qc_ch)
     Multiqc_QC_Stats(Pretrim_fastqc_merged.out.pretrim_fastqc_ch.collect(),Post_trim_fastqc.out.posttrim_fastqc_ch.collect())
@@ -50,16 +50,3 @@ workflow {
     MMSEQ_contigs_against_NT(MetaSPAdes_Assembly.out.metaspades_assembly_ch)
     DAA2INFO_contigs_daa_file(Meganize_BlastX_Contigs.out.meganize_blastx_contigs_ch)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
