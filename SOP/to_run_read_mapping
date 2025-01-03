@@ -1,0 +1,25 @@
+# To Run read_map_compile
+
+#Activate environement
+mamba activate nextflow
+
+#Create the samplesheet for your interleaved trimmed reads. If samples not already interleaved See module/local/qc/main.nf (Interleave)
+#Thinking on this after the fact, does it make sense to load the trimming and interleaving processes in this workflow and have those as optional plug-ins? Future me problem....
+Rscript all_in_one_pipeline/scripts/create_interleaved_samplesheet.R 
+	-i /full/path/to/trimmed_reads/ 
+	-o /full/path/to/output_dir/
+
+#Create the samplesheet for your reference fasta files. This will create a file called "reference_samplesheet.csv" in the designated output directory.
+Rscript all_in_one_pipeline/scripts/create_reference_samplesheet.R 
+        -i /full/path/to/trimmed_reads/
+        -o /full/path/to/output_dir/
+
+
+#This workflow will run read mapping for all samples in the samplesheet against all references in the reference file. It also generates consensus fasta sequences at 10X depth using ivar.
+#Primary summary outputs are compile_10x.tsv and combined_covstats.tsv and will be in ${outdir}/${project_id}/
+nextflow run /export/nextflow/bdrd/all_in_one_pipeline/read_mapping.nf \ 
+	--samplesheet_csv=/full/path/to/interleaved_samplesheet.csv \ 
+	--samplesheet_ref_csv=/full/path/to/reference_samplesheet.csv \
+	--outdir=all_in_one_pipeline/nextflow_dev/nf_read_mapping \
+	--project_id="test" \
+	-profile cluster_normal
